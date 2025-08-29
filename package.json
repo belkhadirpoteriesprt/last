@@ -1,0 +1,15 @@
+{
+  "name": "atelier-belkhadir-ready",
+  "version": "1.0.0",
+  "description": "Prototype ready-to-deploy package with Twilio WhatsApp notifications and optional Nodemailer email (seller-only).",
+  "main": "netlify/functions/submit-order.js",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo \"No build step\"",
+    "start": "netlify dev"
+  },
+  "dependencies": {
+    "twilio": "^4.15.0",
+    "nodemailer": "^6.9.4"
+  }
+}

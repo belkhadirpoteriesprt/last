@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Atelier Belkhadir - Prototype</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; padding: 20px; background:#f7f7f7; color:#222; }
+    .container{ max-width:900px; margin:0 auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+    h1{ margin-top:0;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Atelier Belkhadir - Prototype</h1>
+    <p>Formulaire de commande minimal. Le frontend envoie un POST à la Netlify function <code>submit-order</code>.</p>
+    <form id="orderForm">
+      <label>Produit<br/><input id="productName" required/></label><br/>
+      <label>Quantité<br/><input id="quantity" type="number" value="1" min="1"/></label><br/>
+      <label>Nom<br/><input id="customerName" required/></label><br/>
+      <label>Email<br/><input id="email" type="email" required/></label><br/>
+      <label>Téléphone<br/><input id="phone" required placeholder='+212...'/></label><br/><br/>
+      <button type="submit">Envoyer commande</button>
+    </form>
+    <pre id="result"></pre>
+  </div>
+  <script>
+    document.getElementById("orderForm").addEventListener("submit", async function(e){
+      e.preventDefault();
+      const body = {
+        productName: document.getElementById("productName").value,
+        quantity: Number(document.getElementById("quantity").value),
+        customerName: document.getElementById("customerName").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value
+      };
+      const res = await fetch("/.netlify/functions/submit-order", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify(body)
+      });
+      const j = await res.json();
+      document.getElementById("result").textContent = JSON.stringify(j, null, 2);
+      alert(j.ok ? "Commande envoyée." : "Erreur.");
+    });
+  </script>
+</body>
+</html>
